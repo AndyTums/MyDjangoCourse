@@ -24,7 +24,7 @@ class Message(models.Model):
     text = models.TextField(verbose_name="Текст сообщения")
 
     def __str__(self):
-        return {self.name}
+        return self.name
 
     class Meta:
         verbose_name = "сообщение"
@@ -50,9 +50,26 @@ class Newsletter(models.Model):
     recipient = models.ManyToManyField(Recipient, verbose_name="Получатель")
 
     def __str__(self):
-        return {self.message}
+        return f"{self.message}"
 
     class Meta:
         verbose_name = "Рассылка"
         verbose_name_plural = "Рассылки"
         ordering = ["start_mail"]
+
+
+class Try(models.Model):
+    """ Модель: Рассылка """
+
+    send_time = models.DateTimeField(verbose_name="Дата попытки отправки")
+    status = models.CharField(max_length=50, verbose_name="Статус отправки")
+    response = models.TextField(verbose_name="Текст ошибки")
+    newsletter = models.ForeignKey(Newsletter, on_delete=models.CASCADE, verbose_name="Рассылка")
+
+    def __str__(self):
+        return f"{self.send_time} - {self.status}"
+
+    class Meta:
+        verbose_name = "Попытка"
+        verbose_name_plural = "Попытки"
+        ordering = ["send_time"]
