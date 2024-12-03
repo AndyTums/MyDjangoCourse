@@ -4,12 +4,12 @@ from django.db import models
 class Recipient(models.Model):
     """ Модель: Получатель рассылок """
 
-    name = models.CharField(max_length=50, verbose_name="Название рассылки", unique=True)
+    email = models.EmailField(verbose_name="Почта получателя", unique=True, blank=True, null=True)
     fio = models.CharField(max_length=200, verbose_name="ФИО")
     comment = models.TextField(verbose_name="Комментарий", blank=True, null=True)
 
     def __str__(self):
-        return f"{self.fio} - {self.name}"
+        return f"{self.fio} - {self.email}"
 
     class Meta:
         verbose_name = "получатель"

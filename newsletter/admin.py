@@ -11,7 +11,7 @@ class NewsletterAdmin(admin.ModelAdmin):
 
 @admin.register(Recipient)
 class NewsletterAdmin(admin.ModelAdmin):
-    list_display = ("name", "fio", "comment")
+    list_display = ("email", "fio", "comment")
 
 
 @admin.register(Message)

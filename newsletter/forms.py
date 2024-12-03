@@ -12,6 +12,7 @@ class StyleFormMixin:
         for fild_name, fild in self.fields.items():
             if isinstance(fild, BooleanField):
                 fild.widget.attrs['class'] = 'form-check-input'
+                fild.widget.attrs['style'] = 'background-color: #300; color: #5; border-radius: 10px;'
             else:
                 fild.widget.attrs['class'] = 'form-control'
 
@@ -37,7 +38,6 @@ class NewsletterForm(StyleFormMixin, ModelForm):
     #     description = clean_data.get('description').lower()
     #     if name and description in list_wrong_worlds:
     #         raise ValidationError("Поле не может содержать такие слова")
-
 
 # class ProductModeratorForm(StyleFormMixin, ModelForm):
 #     class Meta:
