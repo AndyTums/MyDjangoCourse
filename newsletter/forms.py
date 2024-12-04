@@ -22,6 +22,18 @@ class NewsletterForm(StyleFormMixin, ModelForm):
         model = Newsletter
         fields = '__all__'
 
+
+class RecipientForm(StyleFormMixin, ModelForm):
+    class Meta:
+        model = Recipient
+        fields = '__all__'
+
+
+class MessageForm(StyleFormMixin, ModelForm):
+    class Meta:
+        model = Message
+        fields = '__all__'
+
     # def clean_price(self):
     #     """ Проверяем поле цена на отрицательное значение """
     #     price = self.cleaned_data['price']

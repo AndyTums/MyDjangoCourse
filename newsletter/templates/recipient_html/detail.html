@@ -6,30 +6,19 @@
     <div class="col-2"></div>
     <main class="col-8" style="margin-top: 50px;">
         <div class="pb-3 mb-5 border-bottom">
-            <span class="fs-4">Информация о рассылке:</span>
+            <span class="fs-4">Редактирование клиента:</span>
         </div>
-        <p><span class="fw-bold me-2">Дата начала отправки:</span>
-            <span class="fst-italic">{{object.start_mail}}</span></p>
-        <p><span class="fw-bold me-2">Дата окончания отправки:</span>
-            <span class="fst-italic">{{object.end_mail}}</span></p>
-        <p><span class="fw-bold me-2">Получатель:</span>
-            <span class="fst-italic">
-                {% if objects.recipient == None%}Отсутствует
-                {% else %} {{object.recipient.email}}
-                {%endif%}</span></p>
-        <p><span class="fw-bold me-2">Владелец:</span>
-            <span class="fst-italic">&&&&&&</span></p>
-        <p><span class="fw-bold me-2">Статус:</span>
-            <span class="fst-italic">{{object.status}}</span></p>
-        <p><span class="fw-bold me-2">Тема:</span>
-            <span class="fst-italic">{{object.message}}</span></p>
-        <p class="mb-5"><span class="fw-bold me-2">Сообщение:</span>
-            <span class="fst-italic">{{object.message.text}}</span></p>
+        <p><span class="fw-bold me-2">Почта:</span>
+            <span class="fst-italic">{{object.email}}</span></p>
+        <p><span class="fw-bold me-2">ФИО:</span>
+            <span class="fst-italic">{{object.fio}}</span></p>
+        <p><span class="fw-bold me-2">О себе:</span>
+            <span class="fst-italic">{{object.comment}}</span></p>
 
         <div>
-            <a href="{% url 'newsletter:newsletters' %}" class="btn btn-secondary me-2">Назад</a>
-            <a href="{% url 'newsletter:update' object.id %}" class="btn btn-primary me-2">Редактировать</a>
-            <a href="{% url 'newsletter:delete' object.id %}" class="btn btn-danger me-2">Удалить</a>
+            <a href="{% url 'newsletter:recipient' %}" class="btn btn-secondary me-2">Назад</a>
+            <a href="{% url 'newsletter:update_recipient' object.id %}" class="btn btn-primary me-2">Редактировать</a>
+            <a href="{% url 'newsletter:delete_recipient' object.id %}" class="btn btn-danger me-2">Удалить</a>
         </div>
         <hr class="col-1 col-md-2">
 

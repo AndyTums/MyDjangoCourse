@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView, TemplateView
 
-from .forms import NewsletterForm
+from .forms import NewsletterForm, RecipientForm, MessageForm
 from .models import Recipient, Message, Newsletter
 
 # def main_page(request):
@@ -63,19 +63,52 @@ class RecipientDetailView(DetailView):
 
 class RecipientCreateView(CreateView):
     model = Recipient
-    form_class = NewsletterForm
+    form_class = RecipientForm
     template_name = "recipient_html/create.html"
-    success_url = reverse_lazy('newsletter:newsletters')
+    success_url = reverse_lazy('newsletter:recipient')
 
 
 class RecipientUpdateView(UpdateView):
     model = Recipient
-    form_class = NewsletterForm
+    form_class = RecipientForm
     template_name = "recipient_html/create.html"
-    success_url = reverse_lazy('newsletter:newsletters')
+    success_url = reverse_lazy('newsletter:recipient')
 
 
 class RecipientDeleteView(DeleteView):
-    model = Newsletter
+    model = Recipient
     template_name = "recipient_html/delete.html"
-    success_url = reverse_lazy('newsletter:newsletters')
+    success_url = reverse_lazy('newsletter:recipient')
+
+
+""" Работа с моделями MESSAGE """
+
+
+class MessageListView(ListView):
+    model = Message
+    template_name = "message_html/list.html"
+
+
+class MessageDetailView(DetailView):
+    model = Message
+    template_name = "message_html/detail.html"
+
+
+class MessageCreateView(CreateView):
+    model = Message
+    form_class = MessageForm
+    template_name = "message_html/create.html"
+    success_url = reverse_lazy('newsletter:message')
+
+
+class MessageUpdateView(UpdateView):
+    model = Message
+    form_class = MessageForm
+    template_name = "message_html/create.html"
+    success_url = reverse_lazy('newsletter:message')
+
+
+class MessageDeleteView(DeleteView):
+    model = Message
+    template_name = "message_html/delete.html"
+    success_url = reverse_lazy('newsletter:message')

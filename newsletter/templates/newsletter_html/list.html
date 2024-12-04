@@ -16,20 +16,20 @@
                    class="list-group-item list-group-item d-flex gap-3 mb-2" aria-current="true">
                     <div class="d-flex w-100">
                         <div>
-                            <h6 class="mb-0 me-5">Начало:</h6>
-                            <p class="mb-0 opacity-75">{{ newsletter.start_mail}}</p>
+                            <h6 class="mb-0 me-5 pe-5">Начало:</h6>
+                            <p class="mb-0 opacity-75">{{ newsletter.start_mail|truncatechars:20}}</p>
                         </div>
                         <div style="margin-left: 100px;">
-                            <h6 class="mb-0 me-5">Окончание:</h6>
-                            <p class="mb-0 opacity-75">{{ newsletter.end_mail}}</p>
+                            <h6 class="mb-0 me-5 pe-5">Окончание:</h6>
+                            <p class="mb-0 opacity-75">{{ newsletter.end_mail|truncatechars:20}}</p>
                         </div>
                         <div style="margin-left: 100px;">
-                            <h6 class="mb-0 me-5">Владелец:</h6>
-                            <p class="mb-0 opacity-75">{{ newsletter.message}}</p>
+                            <h6 class="me-5 pe-5">Владелец:</h6>
+                            <p class="mb-0 opacity-75">{{ newsletter.message|truncatechars:20}}</p>
                         </div>
                         <div style="margin-left: 100px;">
-                            <h6 class="mb-0 me-5">Статус:</h6>
-                            <p class="mb-0 opacity-75">{{ newsletter.status}}</p>
+                            <h6 class="mb-0 me-5 pe-5">Статус:</h6>
+                            <p class="mb-0 opacity-75">{{ newsletter.status|truncatechars:20}}</p>
                         </div>
                     </div>
                     {% endfor %}

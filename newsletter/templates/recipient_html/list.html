@@ -8,31 +8,28 @@
         <div class="container">
             <div class="row mb-3">
                 <div class="col-sm-10"><h4 class="row row-cols-2">Список доступных клиентов:</h4></div>
-                <a href="{% url 'newsletter:create_recipient' %}" class="col-2 btn btn-warning">Добавить клиента:</a></div>
+                <a href="{% url 'newsletter:create_recipient' %}" class="col-2 btn btn-warning">Добавить клиента:</a>
             </div>
-            <div class="list-group">
-                {% for recipient in object_list %}
-                <a href="{% url 'newsletter:detail' recipient.id %}"
-                   class="list-group-item list-group-item d-flex gap-3 mb-2" aria-current="true">
-                    <div class="d-flex w-100">
-                        <div>
-                            <h6 class="mb-0 me-5">Начало:</h6>
-                            <p class="mb-0 opacity-75">{{ recipient.start_mail}}</p>
-                        </div>
-                        <div style="margin-left: 100px;">
-                            <h6 class="mb-0 me-5">Окончание:</h6>
-                            <p class="mb-0 opacity-75">{{ recipient.end_mail}}</p>
-                        </div>
-                        <div style="margin-left: 100px;">
-                            <h6 class="mb-0 me-5">Тема:</h6>
-                            <p class="mb-0 opacity-75">{{ recipient.message}}</p>
-                        </div>
-                        <div style="margin-left: 100px;">
-                            <h6 class="mb-0 me-5">Статус:</h6>
-                            <p class="mb-0 opacity-75">{{ recipient.status}}</p>
-                        </div>
+        </div>
+        <div class="list-group">
+            {% for recipient in object_list %}
+            <a href="{% url 'newsletter:detail_recipient' recipient.id %}"
+               class="list-group-item list-group-item d-flex gap-3 mb-2" aria-current="true">
+                <div class="d-flex w-100">
+                    <div>
+                        <h6 class="mb-0 me-5 pe-5">Почта:</h6>
+                        <p class="mb-0 opacity-75">{{ recipient.email|truncatechars:20}}</p>
                     </div>
-                    {% endfor %}
+                    <div style="margin-left: 100px;">
+                        <h6 class="mb-0 me-5 pe-5">ФИО:</h6>
+                        <p class="mb-0 opacity-75">{{ recipient.fio|truncatechars:20}}</p>
+                    </div>
+                    <div style="margin-left: 100px;">
+                        <h6 class="mb-0 me-5 pe-5">О себе:</h6>
+                        <p class="mb-0 opacity-75">{{ recipient.comment|truncatechars:20 }}</p>
+                    </div>
+                </div>
+                {% endfor %}
 
 
     </main>

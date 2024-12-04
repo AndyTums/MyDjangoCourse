@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Удаление клиента{% endblock %}
+{% block title %}Удаление сообщения{% endblock %}
 {% block content %}
 <div class="row">
     <div class="col-4"></div>
@@ -10,7 +10,7 @@
                     <div class="card-body">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger btn-lg">Удалить</button>
-                        <a class="btn btn-primary btn-lg" type="button" href="{% url 'newsletter:detail_recipient' object.id %}">Отменить</a>
+                        <a class="btn btn-primary btn-lg" type="button" href="{% url 'newsletter:detail_message' object.id %}">Отменить</a>
                     </div>
 
 
