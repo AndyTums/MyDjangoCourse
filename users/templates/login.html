@@ -1,25 +1,27 @@
 {% extends 'base.html' %}
 {% block title %}Авторизация{% endblock %}
 {% block content %}
-<div class="col-10">
-    <div class="row">
-        <div class="col-3"></div>
-        <div class="col-5">
-            <div class="text-center pb-5" style="margin-top: 100px;">
-                <form class="row" method="post" enctype="multipart/form-data">
-                    <div class="card">
-                        <div class="card-body">
-                            {% csrf_token %}
-                            {{ form.as_p }}
-                        </div>
-                        <button type="submit" class="btn btn-primary">
-                            Войти
-                        </button>
-                    </div>
-
-                </form>
-            </div>
+<div class="row">
+    <div class="col-2"></div>
+    <main class="col-3" style="margin-top: 50px; margin-left: 360px;">
+        <div class="mb-3 border-bottom">
+            <span class="fs-4">Авторизация:</span>
         </div>
-    </div>
-</div>
-{% endblock %}
+        <form method="post" enctype="multipart/form-data">
+            <div class="card text-light bg-secondary text-center">
+                <div class="card-body">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+
+                </div>
+                <div class=" text-center pb-2">
+                    <a href="{% url 'newsletter:main' %}" class="btn light me-2">Назад</a>
+                    <button type="submit" class="btn btn-primary me-2">Войти</button>
+                    <p><a href="{% url 'users:register' %}" class="me-2 text-warning">Зарегистрироваться</a></p>
+                </div>
+            </div>
+
+        </form>
+
+    </main>
+    {% endblock %}

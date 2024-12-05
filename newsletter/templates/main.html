@@ -7,9 +7,11 @@
         <h1>Расскажем обо всём!</h1>
         <p class="lead">Дорогой друг, наш сервис поможет тебе предупредить о важной информации ваших: партнеров,
             близких, сотрудников.</p>
+        {% if not user.is_authenticated %}
         <p class="lead">
-            <a href="#" class="btn btn-lg btn-light fw-bold border-white bg-white">Присоединиться</a>
+            <a href="{% url 'users:register' %}" class="btn btn-lg btn-light fw-bold border-white bg-white">Присоединиться</a>
         </p>
+        {% endif %}
     </main>
     <div class="col-4"></div>
 </div>

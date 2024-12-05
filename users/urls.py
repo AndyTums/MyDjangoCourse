@@ -3,16 +3,17 @@ from django.urls import path
 from users.apps import UsersConfig
 from django.conf import settings
 from django.conf.urls.static import static
-# from .views import RegisterView, email_verification, user_logout
+from users.views import RegisterView, user_logout, UserDetailView, UserUpdateView
 
 app_name = UsersConfig.name
 
 urlpatterns = [
     path('login/', LoginView.as_view(template_name='login.html'), name='login'),
-    # path('logout/', user_logout, name='logout'),
-    # path('register/', RegisterView.as_view(), name='register'),
+    path('logout/', user_logout, name='logout'),
+    path('register/', RegisterView.as_view(), name='register'),
+    path('user/detail/<int:pk>', UserDetailView.as_view(), name='detail_user'),
+    path('user/update/<int:pk>', UserUpdateView.as_view(), name='update_user'),
     # path('email-confirm/<str:token>/', email_verification, name='email-confirm'),
-
 
 ]
 

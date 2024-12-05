@@ -19,7 +19,17 @@
                 <a class="nav-link fw-bold py-1 px-0 active" href="{% url 'newsletter:newsletters' %}">Рассылки</a>
                 <a class="nav-link fw-bold py-1 px-0" aria-current="page" href="{% url 'newsletter:recipient' %}">Клиенты</a>
                 <a class="nav-link fw-bold py-1 px-0" aria-current="page" href="{% url 'newsletter:message' %}">Сообщения</a>
-                <a class="nav-link fw-bold py-1 px-0 text-warning" href="#">Войти</a>
+                {% if user.is_authenticated %}
+                <a class="nav-link fw-bold py-1 px-0 text-warning dropdown-toggle" id="navbarDarkDropdownMenuLink"
+                   role="button"
+                   data-bs-toggle="dropdown" aria-expanded="false">{{ user.email }}</a>
+                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                    <li><a class="dropdown-item" href="{% url 'users:detail_user' user.id %}">Обо мне</a></li>
+                    <li><a class="dropdown-item" href="{% url 'users:logout' %}">Выход</a></li>
+                </ul>
+                {% else %}
+                <a class="nav-link fw-bold py-1 px-0 text-warning" href="{% url 'users:login' %}">Войти</a>
+                {% endif %}
             </nav>
         </div>
     </header>
