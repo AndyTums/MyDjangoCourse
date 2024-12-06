@@ -15,8 +15,10 @@
 
         <div>
             <a href="{% url 'newsletter:message' %}" class="btn btn-secondary me-2">Назад</a>
+            {% if perms.message.can_edit or user == object.owner %}
             <a href="{% url 'newsletter:update_message' object.id %}" class="btn btn-primary me-2">Редактировать</a>
             <a href="{% url 'newsletter:delete_message' object.id %}" class="btn btn-danger me-2">Удалить</a>
+            {% endif %}
         </div>
         <hr class="col-1 col-md-2">
 

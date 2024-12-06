@@ -1,6 +1,5 @@
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm, BooleanField
-
 from newsletter.models import Newsletter, Recipient, Message, Try
 
 
@@ -32,26 +31,22 @@ class RecipientForm(StyleFormMixin, ModelForm):
 class MessageForm(StyleFormMixin, ModelForm):
     class Meta:
         model = Message
-        fields = '__all__'
+        fields = ['name', 'text', 'owner']
 
-    # def clean_price(self):
-    #     """ Проверяем поле цена на отрицательное значение """
-    #     price = self.cleaned_data['price']
-    #     if price < 0:
-    #         raise ValidationError("Цена не может быть отрицательной")
-    #     return price
 
-    # def clean(self):
-    #     """ Проверяем на поля имя и описание на плохие слова """
-    #     list_wrong_worlds = ["казино", "криптовалюта", "крипта", "биржа", "дешево", "бесплатно", "обман", "полиция",
-    #                          "радар"]
-    #     clean_data = super().clean()
-    #     name = clean_data.get('name').lower()
-    #     description = clean_data.get('description').lower()
-    #     if name and description in list_wrong_worlds:
-    #         raise ValidationError("Поле не может содержать такие слова")
+class TryForm(StyleFormMixin, ModelForm):
+    class Meta:
+        model = Try
+        fields = ['send_time', 'status', 'newsletter']
 
-# class ProductModeratorForm(StyleFormMixin, ModelForm):
-#     class Meta:
-#         model = Newsletter
-#         fields = ['price', 'description', 'name']
+
+class NewsletterModeratorForm(StyleFormMixin, ModelForm):
+    class Meta:
+        model = Newsletter
+        fields = ['start_mail', 'end_mail', 'recipient', ]
+
+
+class RecipientModeratorForm(StyleFormMixin, ModelForm):
+    class Meta:
+        model = Recipient
+        fields = ['email']

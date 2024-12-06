@@ -22,6 +22,30 @@ class RegisterView(CreateView):
     form_class = CustomCreationForm
     success_url = reverse_lazy('users:login')
 
+    def form_valid(self, form):
+        """ Отправка подтверждения регистрации на почту """
+
+        user = form.save()
+        user.is_active = False
+        token = secrets.token_hex(16)
+        user.token = token
+        user.save()
+        host = self.request.get_host()
+        url = f'http://{host}/email-confirm/{token}/'
+        send_mail(subject="Потверждение почты", message=f"Рады вашей регистрации!Осталось потвердить почту!{url}",
+                  from_email=EMAIL_HOST_USER, recipient_list=[user.email])
+
+        return super().form_valid(form)
+
+
+def email_verification(request, token):
+    """ Изменения статуса пользователя на активный после подтверждения почты """
+
+    user = get_object_or_404(User, token=token)
+    user.is_active = True
+    user.save()
+    return redirect(reverse('users:login'))
+
 
 class UserDetailView(DetailView):
     model = User
@@ -33,6 +57,11 @@ class UserUpdateView(UpdateView):
     form_class = UserUpdateForm
     template_name = "update_user.html"
     success_url = reverse_lazy('users:detail_user')
+
+    def get_success_url(self):
+        """ Функция возврата на информацию о пользователе в случае внесения изменений """
+
+        return reverse("users:detail_user", args=[self.kwargs.get('pk')])
 
 
 def user_logout(request):

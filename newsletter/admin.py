@@ -1,5 +1,5 @@
 from django.contrib import admin
-from newsletter.models import Recipient, Message, Newsletter
+from newsletter.models import Recipient, Message, Newsletter, Try
 
 
 @admin.register(Newsletter)
@@ -17,3 +17,8 @@ class NewsletterAdmin(admin.ModelAdmin):
 @admin.register(Message)
 class NewsletterAdmin(admin.ModelAdmin):
     list_display = ("name", "text")
+
+
+@admin.register(Try)
+class NewsletterAdmin(admin.ModelAdmin):
+    list_display = ("send_time", "status", "response", "newsletter")

@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="list-group">
-            {% for message in object_list %}
+            {% for message in message_list %}
             <a href="{% url 'newsletter:detail_message' message.id %}"
                class="list-group-item list-group-item d-flex gap-3 mb-2" aria-current="true">
                 <div class="d-flex">

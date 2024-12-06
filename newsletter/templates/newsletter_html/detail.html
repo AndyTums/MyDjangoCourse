@@ -14,11 +14,11 @@
             <span class="fst-italic">{{object.end_mail}}</span></p>
         <p><span class="fw-bold me-2">Получатель:</span>
             <span class="fst-italic">
-                {% if objects.recipient == None%}Отсутствует
+                {% if object.recipient.email == None%}Отсутствует
                 {% else %} {{object.recipient.email}}
                 {%endif%}</span></p>
         <p><span class="fw-bold me-2">Владелец:</span>
-            <span class="fst-italic">&&&&&&</span></p>
+            <span class="fst-italic">{{object.owner}}</span></p>
         <p><span class="fw-bold me-2">Статус:</span>
             <span class="fst-italic">{{object.status}}</span></p>
         <p><span class="fw-bold me-2">Тема:</span>
@@ -28,8 +28,10 @@
 
         <div>
             <a href="{% url 'newsletter:newsletters' %}" class="btn btn-secondary me-2">Назад</a>
+            {% if perms.newsletter.can_edit or user == object.owner %}
             <a href="{% url 'newsletter:update' object.id %}" class="btn btn-primary me-2">Редактировать</a>
             <a href="{% url 'newsletter:delete' object.id %}" class="btn btn-danger me-2">Удалить</a>
+            {% endif %}
         </div>
         <hr class="col-1 col-md-2">
 

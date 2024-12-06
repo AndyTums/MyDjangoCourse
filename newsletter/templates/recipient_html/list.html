@@ -12,21 +12,25 @@
             </div>
         </div>
         <div class="list-group">
-            {% for recipient in object_list %}
+            {% for recipient in recipient_list %}
             <a href="{% url 'newsletter:detail_recipient' recipient.id %}"
                class="list-group-item list-group-item d-flex gap-3 mb-2" aria-current="true">
                 <div class="d-flex w-100">
                     <div>
                         <h6 class="mb-0 me-5 pe-5">Почта:</h6>
-                        <p class="mb-0 opacity-75">{{ recipient.email|truncatechars:20}}</p>
+                        <p class="mb-0 opacity-75">{{ recipient.email|truncatechars:15}}</p>
                     </div>
                     <div style="margin-left: 100px;">
                         <h6 class="mb-0 me-5 pe-5">ФИО:</h6>
-                        <p class="mb-0 opacity-75">{{ recipient.fio|truncatechars:20}}</p>
+                        <p class="mb-0 opacity-75">{{ recipient.fio|truncatechars:15}}</p>
                     </div>
                     <div style="margin-left: 100px;">
                         <h6 class="mb-0 me-5 pe-5">О себе:</h6>
-                        <p class="mb-0 opacity-75">{{ recipient.comment|truncatechars:20 }}</p>
+                        <p class="mb-0 opacity-75">{{ recipient.comment|truncatechars:15 }}</p>
+                    </div>
+                    <div style="margin-left: 320px;">
+                        <h6 class="mb-0 me-5 pe-5">Кто пригласил:</h6>
+                        <p class="mb-0 opacity-75">{{ recipient.owner }}</p>
                     </div>
                 </div>
                 {% endfor %}

@@ -9,7 +9,7 @@
             близких, сотрудников.</p>
         {% if not user.is_authenticated %}
         <p class="lead">
-            <a href="{% url 'users:register' %}" class="btn btn-lg btn-light fw-bold border-white bg-white">Присоединиться</a>
+            <a href="{% url 'users:login' %}" class="btn btn-lg btn-light fw-bold border-white bg-white">Присоединиться</a>
         </p>
         {% endif %}
     </main>
@@ -21,8 +21,8 @@
     <hr>
     <ul class="row g-4 row-cols-1 row-cols-lg-3 py-3">
         <li class="fw-bold">Создано рассылок - {{ object_list|length }}</li>
-        <li class="fw-bold">Количество активных рассылок - </li>
-        <li class="fw-bold">Людей получившие рассылки - 4</li>
+        <li class="fw-bold">Количество активных рассылок - {{ active_newsletter }}</li>
+        <li class="fw-bold">Людей получившие рассылки - {{ unique_recipient }}</li>
     </ul>
 </div>
 {% endblock %}
