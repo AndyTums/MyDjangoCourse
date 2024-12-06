@@ -1,11 +1,7 @@
-import datetime
+from django.forms import BooleanField, CharField, ModelForm, Textarea
 
-from django.forms import forms, EmailField, CharField, Textarea, DateField
-from django.forms import ModelForm, BooleanField
-from newsletter.models import Newsletter, Recipient, Message, Try
-from django import forms
-from django.utils import timezone
-from datetime import datetime
+
+from newsletter.models import Message, Newsletter, Recipient, Try
 
 
 class StyleFormMixin:
@@ -34,7 +30,6 @@ class RecipientForm(StyleFormMixin, ModelForm):
 
 
 class MessageForm(StyleFormMixin, ModelForm):
-
     class Meta:
         model = Message
         fields = ['name', 'text', 'owner']

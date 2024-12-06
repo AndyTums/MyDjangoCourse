@@ -1,6 +1,6 @@
 from django.core.management import BaseCommand
 
-from newsletter.models import Recipient, Message, Newsletter
+from newsletter.models import Recipient
 
 
 class Command(BaseCommand):

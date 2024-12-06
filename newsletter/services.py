@@ -1,15 +1,11 @@
-from datetime import timezone
-
 from django.core.cache import cache
 from django.core.mail import send_mail
-from django.http import BadHeaderError, HttpResponse
 from django.shortcuts import redirect, render
-from django.urls import reverse
 
 from config.settings import CACHE_ENABLE
-# from newsletter.forms import TryForm
-from newsletter.models import Recipient, Newsletter, Message
-from users.models import User
+from newsletter.forms import TryForm
+
+from newsletter.models import Message, Newsletter, Recipient
 
 
 def get_newsletter_from_cache():
@@ -71,6 +67,24 @@ class GetInfo:
         recipient = Recipient.objects.filter(owner=user_id)
 
         return recipient
+
+
+def send_newsletter(request):
+    if request.method == 'POST':
+        form = TryForm(request.POST)
+        if form.is_valid():
+            message = form.cleaned_data['message']
+            recipients = [recipient.strip() for recipient in
+                          form.cleaned_data['recipients'].split(',')]  # Подготовка информации для отправки
+            subject = f"Новое сообщение от"
+            body = f"Сообщение: {message}\n"  # Отправка сообщения всем указанным получателям
+
+            send_mail(subject, body, "andyqqqq@yandex.ru", recipients, fail_silently=False)
+
+            return redirect('newsletter:try')  # Страница подтверждения
+    else:
+        form = TryForm()
+        return render(request, 'newsletter_html/try_create.html', {'form': form})
 
 # def send_email(request):
 #     if request.method == "POST":

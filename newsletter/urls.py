@@ -1,13 +1,18 @@
-from django.urls import path, reverse_lazy
 from django.conf import settings
-from django.views.decorators.cache import cache_page
-
-from newsletter.apps import NewsletterConfig
 from django.conf.urls.static import static
-from newsletter.views import NewsletterView, NewsletterListView, NewsletterDetailView, NewsletterCreateView, \
-    NewsletterDeleteView, NewsletterUpdateView, RecipientDeleteView, RecipientCreateView, RecipientListView, \
-    RecipientUpdateView, RecipientDetailView, MessageDetailView, MessageCreateView, MessageDeleteView, \
-    MessageUpdateView, MessageListView, TryListView, TryUpdateView, send_newsletter
+from django.urls import path
+from django.views.decorators.cache import cache_page
+from newsletter.services import send_newsletter
+from newsletter.apps import NewsletterConfig
+from newsletter.views import (MessageCreateView, MessageDeleteView,
+                              MessageDetailView, MessageListView,
+                              MessageUpdateView, NewsletterCreateView,
+                              NewsletterDeleteView, NewsletterDetailView,
+                              NewsletterListView, NewsletterUpdateView,
+                              NewsletterView, RecipientCreateView,
+                              RecipientDeleteView, RecipientDetailView,
+                              RecipientListView, RecipientUpdateView,
+                              TryListView, TryUpdateView)
 
 app_name = NewsletterConfig.name
 

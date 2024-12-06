@@ -1,15 +1,15 @@
+import secrets
+
 from django.contrib.auth import logout
 from django.core.mail import send_mail
-from django.shortcuts import redirect, get_object_or_404, render
-from django.urls import reverse_lazy, reverse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse, reverse_lazy
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView
-# from .forms import CustomCreationForm
-from newsletter.forms import StyleFormMixin
+
+from config.settings import EMAIL_HOST_USER
 from users.forms import CustomCreationForm, UserUpdateForm
 from users.models import User
-import secrets
-from config.settings import EMAIL_HOST_USER
 
 """ Работа с моделями MESSAGE """
 

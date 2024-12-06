@@ -1,18 +1,16 @@
-from django.conf.global_settings import DEFAULT_FROM_EMAIL
-from django.core.exceptions import PermissionDenied
-from django.core.mail import send_mail, BadHeaderError
-from django.http import HttpResponseForbidden, request, HttpResponse
-from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.utils import timezone
-from django.views.decorators.cache import cache_page
-from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView, TemplateView
+from django.core.exceptions import PermissionDenied
+from django.core.mail import send_mail
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
 
-from users.models import User
-from .forms import NewsletterForm, RecipientForm, MessageForm, NewsletterModeratorForm, RecipientModeratorForm, TryForm
-from .models import Recipient, Message, Newsletter, Try
-from .services import GetInfo, get_newsletter_from_cache, get_message_from_cache, get_recipient_from_cache
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
+
+from .forms import (MessageForm, NewsletterForm, NewsletterModeratorForm,
+                    RecipientForm, RecipientModeratorForm, TryForm)
+from .models import Message, Newsletter, Recipient, Try
+from .services import (GetInfo, get_message_from_cache,
+                       get_newsletter_from_cache, get_recipient_from_cache)
 
 # def main_page(request):
 #     """ Отображение главной страницы """
@@ -263,21 +261,3 @@ class TryUpdateView(LoginRequiredMixin, UpdateView):
     form_class = TryForm
     template_name = "newsletter_html/try_create.html"
     success_url = reverse_lazy('newsletter:try')
-
-
-def send_newsletter(request):
-    if request.method == 'POST':
-        form = TryForm(request.POST)
-        if form.is_valid():
-            message = form.cleaned_data['message']
-            recipients = [recipient.strip() for recipient in
-                          form.cleaned_data['recipients'].split(',')]  # Подготовка информации для отправки
-            subject = f"Новое сообщение от"
-            body = f"Сообщение: {message}\n"  # Отправка сообщения всем указанным получателям
-
-            send_mail(subject, body, "andyqqqq@yandex.ru", recipients, fail_silently=False)
-
-            return redirect('newsletter:try')  # Страница подтверждения
-    else:
-        form = TryForm()
-        return render(request, 'newsletter_html/try_create.html', {'form': form})

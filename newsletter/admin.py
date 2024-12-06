@@ -1,5 +1,6 @@
 from django.contrib import admin
-from newsletter.models import Recipient, Message, Newsletter, Try
+
+from newsletter.models import Message, Newsletter, Recipient, Try
 
 
 @admin.register(Newsletter)
