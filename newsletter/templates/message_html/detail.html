@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load my_tags %}
+{% block title %}Информация о сообщении{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-2"></div>
+    <main class="col-8" style="margin-top: 50px;">
+        <div class="pb-3 mb-5 border-bottom">
+            <span class="fs-4">Редактирование сообщения:</span>
+        </div>
+        <p><span class="fw-bold me-2">Тема:</span>
+            <span class="fst-italic">{{object.name}}</span></p>
+        <p><span class="fw-bold me-2">Текст:</span>
+            <span class="fst-italic">{{object.text}}</span></p>
+
+        <div>
+            <a href="{% url 'newsletter:message' %}" class="btn btn-secondary me-2">Назад</a>
+            {% if perms.message.can_edit or user == object.owner %}
+            <a href="{% url 'newsletter:update_message' object.id %}" class="btn btn-primary me-2">Редактировать</a>
+            <a href="{% url 'newsletter:delete_message' object.id %}" class="btn btn-danger me-2">Удалить</a>
+            {% endif %}
+        </div>
+        <hr class="col-1 col-md-2">
+
+
+    </main>
+    {% endblock %}
