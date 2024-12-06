@@ -1,6 +1,11 @@
-from django.core.exceptions import ValidationError
+import datetime
+
+from django.forms import forms, EmailField, CharField, Textarea, DateField
 from django.forms import ModelForm, BooleanField
 from newsletter.models import Newsletter, Recipient, Message, Try
+from django import forms
+from django.utils import timezone
+from datetime import datetime
 
 
 class StyleFormMixin:
@@ -29,15 +34,20 @@ class RecipientForm(StyleFormMixin, ModelForm):
 
 
 class MessageForm(StyleFormMixin, ModelForm):
+
     class Meta:
         model = Message
         fields = ['name', 'text', 'owner']
 
 
 class TryForm(StyleFormMixin, ModelForm):
+    subject = CharField(label="Тема")
+    message = CharField(widget=Textarea, label="Сообщение")
+    recipients = CharField(widget=Textarea, label="Получатели (через запятую)")
+
     class Meta:
         model = Try
-        fields = ['send_time', 'status', 'newsletter']
+        fields = ['send_time', 'recipients', 'subject', 'message', 'newsletter', ]
 
 
 class NewsletterModeratorForm(StyleFormMixin, ModelForm):

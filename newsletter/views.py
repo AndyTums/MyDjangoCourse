@@ -1,14 +1,18 @@
+from django.conf.global_settings import DEFAULT_FROM_EMAIL
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponseForbidden, request
+from django.core.mail import send_mail, BadHeaderError
+from django.http import HttpResponseForbidden, request, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils import timezone
+from django.views.decorators.cache import cache_page
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView, TemplateView
 
 from users.models import User
 from .forms import NewsletterForm, RecipientForm, MessageForm, NewsletterModeratorForm, RecipientModeratorForm, TryForm
 from .models import Recipient, Message, Newsletter, Try
-from .services import GetInfo
+from .services import GetInfo, get_newsletter_from_cache, get_message_from_cache, get_recipient_from_cache
 
 # def main_page(request):
 #     """ Отображение главной страницы """
@@ -38,6 +42,8 @@ class NewsletterListView(LoginRequiredMixin, ListView):
         """ Выводим список согласно правам доступа """
 
         user = self.request.user
+
+        get_newsletter_from_cache()  # Кэшируем
 
         if user.groups.filter(name="Manager").exists():
             return Newsletter.objects.all()
@@ -105,6 +111,8 @@ class RecipientListView(LoginRequiredMixin, ListView):
 
         user = self.request.user
 
+        get_recipient_from_cache()  # Кэшируем
+
         if user.groups.filter(name="Manager").exists():
             return Recipient.objects.all()
         return Recipient.objects.filter(owner=user)
@@ -168,11 +176,12 @@ class MessageListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         """ Выводим список согласно правам доступа """
-
         user = self.request.user
 
+        get_message_from_cache()  # Кэшируем
+
         if user.groups.filter(name="Manager").exists():
-            return Message.objects.all()
+            get_newsletter_from_cache()  # Забираем с кэша или кэшируем и получаем
         return Message.objects.filter(owner=user)
 
 
@@ -195,6 +204,15 @@ class MessageCreateView(LoginRequiredMixin, CreateView):
     form_class = MessageForm
     template_name = "message_html/create.html"
     success_url = reverse_lazy('newsletter:message')
+
+    def get_queryset(self):
+        """ Выводим список согласно правам доступа """
+
+        user = self.request.user
+
+        if user.groups.filter(name="Manager").exists():
+            return Message.objects.all()
+        return Message.objects.filter(owner=user)
 
 
 class MessageUpdateView(LoginRequiredMixin, UpdateView):
@@ -233,11 +251,11 @@ class TryListView(LoginRequiredMixin, ListView):
     template_name = "newsletter_html/try_list.html"
 
 
-class TryCreateView(LoginRequiredMixin, CreateView):
-    model = Try
-    form_class = TryForm
-    template_name = "newsletter_html/try_create.html"
-    success_url = reverse_lazy('newsletter:try_list')
+# class TryCreateView(LoginRequiredMixin, CreateView):
+#     model = Try
+#     form_class = TryForm
+#     template_name = "newsletter_html/try_create.html"
+#     success_url = reverse_lazy('newsletter:try')
 
 
 class TryUpdateView(LoginRequiredMixin, UpdateView):
@@ -245,3 +263,21 @@ class TryUpdateView(LoginRequiredMixin, UpdateView):
     form_class = TryForm
     template_name = "newsletter_html/try_create.html"
     success_url = reverse_lazy('newsletter:try')
+
+
+def send_newsletter(request):
+    if request.method == 'POST':
+        form = TryForm(request.POST)
+        if form.is_valid():
+            message = form.cleaned_data['message']
+            recipients = [recipient.strip() for recipient in
+                          form.cleaned_data['recipients'].split(',')]  # Подготовка информации для отправки
+            subject = f"Новое сообщение от"
+            body = f"Сообщение: {message}\n"  # Отправка сообщения всем указанным получателям
+
+            send_mail(subject, body, "andyqqqq@yandex.ru", recipients, fail_silently=False)
+
+            return redirect('newsletter:try')  # Страница подтверждения
+    else:
+        form = TryForm()
+        return render(request, 'newsletter_html/try_create.html', {'form': form})

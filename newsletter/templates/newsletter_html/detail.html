@@ -31,6 +31,7 @@
             {% if perms.newsletter.can_edit or user == object.owner %}
             <a href="{% url 'newsletter:update' object.id %}" class="btn btn-primary me-2">Редактировать</a>
             <a href="{% url 'newsletter:delete' object.id %}" class="btn btn-danger me-2">Удалить</a>
+            <a href="{% url 'newsletter:send_email' %}" class="btn btn-warning me-2">Отправить</a>
             {% endif %}
         </div>
         <hr class="col-1 col-md-2">
