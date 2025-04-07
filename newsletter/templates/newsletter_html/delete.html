@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Удаление рассылки{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-4"></div>
+    <main class="col-4 text-center" style="margin-top: 100px;">
+        <h1>Вы действительно хотите удалить?</h1>
+        <div class="text-center" style="margin-top: 50px;">
+            <form class="row" method="post" enctype="multipart/form-data">
+                    <div class="card-body">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-lg">Удалить</button>
+                        <a class="btn btn-primary btn-lg" type="button" href="{% url 'newsletter:detail' object.id %}">Отменить</a>
+                    </div>
+
+
+            </form>
+        </div>
+
+    </main>
+    <div class="col-4"></div>
+</div>
+{% endblock %}

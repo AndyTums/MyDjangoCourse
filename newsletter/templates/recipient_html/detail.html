@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load my_tags %}
+{% block title %}Информация о рассылке{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-2"></div>
+    <main class="col-8" style="margin-top: 50px;">
+        <div class="pb-3 mb-5 border-bottom">
+            <span class="fs-4">Редактирование клиента:</span>
+        </div>
+        <p><span class="fw-bold me-2">Почта:</span>
+            <span class="fst-italic">{{object.email}}</span></p>
+        <p><span class="fw-bold me-2">ФИО:</span>
+            <span class="fst-italic">{{object.fio}}</span></p>
+        <p><span class="fw-bold me-2">О себе:</span>
+            <span class="fst-italic">{{object.comment}}</span></p>
+
+
+        <div>
+            <a href="{% url 'newsletter:recipient' %}" class="btn btn-secondary me-2">Назад</a>
+            {% if perms.recipient.can_edit or user == object.owner %}
+            <a href="{% url 'newsletter:update_recipient' object.id %}" class="btn btn-primary me-2">Редактировать</a>
+            <a href="{% url 'newsletter:delete_recipient' object.id %}" class="btn btn-danger me-2">Удалить</a>
+            {% endif %}
+        </div>
+        <hr class="col-1 col-md-2">
+
+
+    </main>
+    {% endblock %}
